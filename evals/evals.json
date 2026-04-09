@@ -1,0 +1,54 @@
+{
+  "skill_name": "hte",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "请对以下文章进行 HTE 分析：\n\n---\n生成式 AI 正在重塑软件开发行业。根据 GitHub 2023 年的报告，使用 Copilot 的开发者代码接受率达到 30%，任务完成速度提升 55%。\n\n这一变化带来了三个值得关注的结构性影响。第一，初级工程师的门槛在降低，AI 可以帮助完成大量样板代码，让新人更快上手。第二，高级工程师的价值在提升，因为判断 AI 输出是否正确、如何架构系统，仍然需要深厚经验。第三，产品经理与工程师的协作模式正在改变——当 AI 可以直接将自然语言转化为代码原型，产品想法的验证成本大幅下降。\n\n当然，这些变化也带来了新的挑战：代码质量控制、知识产权归属、以及工程师技能退化的风险，都需要团队认真应对。\n---",
+      "expected_output": "A structured HTE report with signal table, calculation table, compression ratio, reading-time equivalent, and confidence level. The document is a short analytical blog post (500–600 Chinese chars), moderate depth (D≈2-3), narrow breadth (B≈1-2), with 1 explicit reference (GitHub report) and 1-2 implicit data points.",
+      "files": [],
+      "expectations": [
+        "Report contains a Signal Extraction table with L, T, D, B, R values",
+        "Report contains an HTE Calculation table with HTE_output, HTE_process, HTE_input, and HTE_total",
+        "Report contains a compression ratio (HTE_total / L)",
+        "Report contains a reading-time equivalent in minutes",
+        "Report contains a confidence level (High/Medium/Low)",
+        "D score is between 2 and 3 (moderate analytical depth)",
+        "B score is between 1 and 2 (mostly single domain with adjacent context)",
+        "R count is between 1 and 3 (one named report plus implicit stats)",
+        "HTE_total is between 5000 and 25000 tokens (plausible for a short analytical post)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Please run an HTE analysis on the following document:\n\n---\nThe Attention Mechanism: From Bahdanau to Transformers\n\nThe attention mechanism represents one of the most consequential architectural innovations in modern deep learning. Originally proposed by Bahdanau et al. (2015) to address the information bottleneck in sequence-to-sequence models, attention has since become the foundational primitive of transformer architectures that now dominate natural language processing, computer vision, and multimodal AI.\n\nThe core intuition is deceptively simple: rather than compressing an entire input sequence into a fixed-size vector, allow the decoder to selectively attend to different encoder states at each decoding step. Formally, given encoder hidden states h₁,...,hₙ and decoder state sₜ, the context vector cₜ is computed as a weighted sum:\n\ncₜ = Σᵢ αₜᵢ hᵢ\n\nwhere the alignment scores αₜᵢ are derived via a learned compatibility function—in Bahdanau's formulation, a small feedforward network—and normalized via softmax.\n\nVaswani et al. (2017) generalized this in \"Attention Is All You Need\" by eliminating recurrence entirely. The self-attention mechanism computes queries, keys, and values from the same sequence:\n\nAttention(Q, K, V) = softmax(QKᵀ / √dₖ) V\n\nThe √dₖ scaling prevents dot products from growing large in magnitude as dimensionality increases, which would push softmax into regions of extremely small gradients. Multi-head attention further allows the model to attend to different representational subspaces simultaneously.\n\nThe empirical consequences have been profound. On WMT 2014 English-to-German translation, the original transformer achieved 28.4 BLEU—surpassing all prior architectures at a fraction of the training cost. Subsequent scaling (BERT, GPT, T5, PaLM) has demonstrated that transformer performance scales log-linearly with compute, model size, and data, following the scaling laws documented by Kaplan et al. (2020).\n\nFrom a cognitive science perspective, attention mechanisms share a functional resemblance to human selective attention—the ability to prioritize relevant stimuli while suppressing irrelevant ones. However, the analogy breaks down under scrutiny: biological attention operates through inhibitory circuits and neuromodulatory systems (Desimone & Duncan, 1995), mechanisms quite distinct from the matrix multiplication at the heart of transformers.\n---",
+      "expected_output": "A structured HTE report. This is a technical deep-dive article (~400 English words) with high depth (D≈4, requires ML expertise to evaluate), moderate breadth (B≈2-3, covers ML architecture + cognitive science + mathematical formalism), and several explicit references (Bahdanau 2015, Vaswani 2017, Kaplan 2020, Desimone & Duncan 1995) plus implicit ones (WMT benchmark, named models). HTE_total should be significantly higher than eval 1 despite similar word count, due to higher D, B, and R.",
+      "files": [],
+      "expectations": [
+        "Report contains a Signal Extraction table with L, T, D, B, R values",
+        "Report contains an HTE Calculation table with HTE_output, HTE_process, HTE_input, and HTE_total",
+        "D score is 4 or 5 (requires expert ML knowledge to write correctly)",
+        "B score is between 2 and 3 (ML + math + cognitive science)",
+        "R count is at least 4 (four named papers/references)",
+        "HTE_total is higher than a typical blog post — at least 20000 tokens",
+        "Report contains a sensitivity note in the Confidence section",
+        "Document type is classified as technical/academic, not blog"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "对以下新闻简报做 HTE 分析：\n\n---\n苹果公司今日发布 iPhone 17 系列，共推出四款机型。新机搭载 A19 芯片，相机系统全面升级，支持 8K 视频录制。起售价为 5999 元，将于下周五正式开售。\n---",
+      "expected_output": "A very short HTE report. This is a news brief (~50 Chinese chars), surface-level factual content (D≈0-1), single domain (B≈0), no external references (R≈0). Compression ratio should be low (3–6×), HTE_total should be very small (under 3000 tokens). This tests the lower bound of the model.",
+      "files": [],
+      "expectations": [
+        "Report contains a Signal Extraction table with L, T, D, B, R values",
+        "Report contains an HTE Calculation table",
+        "D score is 0 or 1 (purely factual, no analysis)",
+        "B score is 0 or 1 (single domain)",
+        "R count is 0 (no references — factual product announcement)",
+        "HTE_total is under 3000 tokens",
+        "Document type is classified as news/brief",
+        "Compression ratio is between 2 and 8"
+      ]
+    }
+  ]
+}
